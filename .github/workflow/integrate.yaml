@@ -10,17 +10,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     services:
-    mongodb:
-      image: mongo:3.4.23
-      ports:
-        - 27017:27017
-    rabbitmq:
-      image: rabbitmq:3.8
-      env:
-        RABBITMQ_DEFAULT_USER: guest
-        RABBITMQ_DEFAULT_PASS: guest
-      ports:
-        - 5672
+      mongodb:
+        image: mongo:3.4.23
+        ports:
+          - 27017:27017
+      rabbitmq:
+        image: rabbitmq:3.8
+        env:
+          RABBITMQ_DEFAULT_USER: guest
+          RABBITMQ_DEFAULT_PASS: guest
+        ports:
+          - 5672
 
     strategy:
       matrix:
@@ -36,4 +36,3 @@ jobs:
         run: npm ci
       - run: start 
       - run: npx cypress run
-      
