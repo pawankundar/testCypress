@@ -68,7 +68,7 @@ module.exports = (on, config) => {
     sendMessageToQueue({ message }) {
       return new Promise((resolve) => {
 
-        amqp.connect("amqp://localhost",(err,connection)=>{
+        amqp.connect("amqp://guest:guest@127.0.0.1:5672",(err,connection)=>{
           if(err){
             console.log("error while connection",err)
             throw err

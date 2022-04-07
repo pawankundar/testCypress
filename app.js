@@ -3,8 +3,11 @@ const amqp = require("amqplib/callback_api");
 const MongoClient = require('mongodb').MongoClient;
 
 
-amqp.connect('amqp://localhost', function (err, conn) {
+amqp.connect('amqp://guest:guest@127.0.0.1:5672', function (err, conn) {
   conn.createChannel(function (err, ch) {
+    ch.assertQueue('testQueue',{
+      durable :true
+    })
     ch.consume('testQueue',  async(msg) => {
         let message = await msg.content.toString()
       console.log('.....');
