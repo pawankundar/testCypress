@@ -10,7 +10,7 @@ amqp.connect('amqp://guest:guest@127.0.0.1:5672', function (err, conn) {
     })
     ch.consume('testQueue',  async(msg) => {
         let message = await msg.content.toString()
-      console.log('.....');
+      console.log('App :: Listening to Rabbit mq');
       console.log("Message:", message );
       MongoClient.connect('mongodb://127.0.0.1:27017', (err, client) => {
         if (err) {
@@ -21,10 +21,10 @@ amqp.connect('amqp://guest:guest@127.0.0.1:5672', function (err, conn) {
 
           db.collection("categories").insertOne(JSON.parse(message),(error,data)=>{
             if (error) {
-              console.log("Error Inserting.");
+              console.log("Error while inserting data in db.");
               return;
             }
-            console.log("Data inserted",data);
+            console.log("App :: Data inserted in db",data);
           })
         }
 

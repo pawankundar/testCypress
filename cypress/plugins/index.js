@@ -31,29 +31,24 @@ module.exports = (on, config) => {
             throw err;
           } else {
             const db = client.db('test');
-            console.log("Collection --- " + collection + "   --- filter --- " + JSON.stringify(filter));
-            let i = 0;
             try {
               fs.unlinkSync('cypress/fixtures/responses.json');
             }
             catch (err) {
-              console.log("Error while deleting the responses.json file." + err);
+              console.log("Cypress :: Error while deleting the responses.json file." + err);
             }
-            db.collection(collection).find(filter).toArray(function (error, docs) {
+            db.collection(collection).find(filter).toArray(function (error, fetchedData) {
               if (error) {
-                console.log("Error while fetching documents from collection.");
+                console.log("Cypress :: Error while fetching documents from collection.");
                 return;
               }
-              console.log("data from docs",docs);
+              console.log("Cypress :: Data fetched from db",fetchedData);
 
-              // docs = docs.reduce((docs, e) => ({ ...docs, [e.key]: e }), {});
 
-              // console.log("doc after reduce",docs)
-
-              fs.appendFile('cypress/fixtures/responses.json', JSON.stringify(docs[0]), 'utf8',
+              fs.appendFile('cypress/fixtures/responses.json', JSON.stringify(fetchedData[0]), 'utf8',
                 function (err) {
                   if (err) throw err;
-                  console.log("Data is appended to file successfully.")
+                  console.log("Cypress :: Data added to fixture successfully")
                   resolve('');
                   client.close();
 
@@ -70,7 +65,7 @@ module.exports = (on, config) => {
 
         amqp.connect("amqp://guest:guest@127.0.0.1:5672",(err,connection)=>{
           if(err){
-            console.log("error while connection",err)
+            console.log("Cypress :: error while connecting to rabbit mq",err)
             throw err
           }
           connection.createChannel((err,channel)=>{
